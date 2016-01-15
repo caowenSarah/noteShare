@@ -1,0 +1,42 @@
+package cn.edu.tju.service.note.imp;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.edu.tju.dao.note.NoteDao;
+import cn.edu.tju.domain.Note;
+import cn.edu.tju.service.note.NoteService;
+import cn.edu.tju.util.Pager;
+
+
+@Service
+public class NoteServiceImp implements NoteService {
+	
+	@Autowired
+	private NoteDao noteDao;
+	
+	
+	public void getNotesByPage(final Pager<Note> pageInfo,Map<String,Object> conditions){
+		noteDao.getByPage(pageInfo, conditions);
+	}
+	
+	public Note getNote(int id){
+		return noteDao.getById(id);
+	}
+	
+	public List<Note> getNotesBySubjects(String subjects) {
+		List<Note> album = noteDao.getBySubjects(subjects);
+		return album;
+	}
+
+	
+	public int saveNote(Note Album) {
+		int id=noteDao.save(Album);
+		return id;
+	}
+	
+
+}

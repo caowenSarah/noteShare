@@ -1,0 +1,17 @@
+package cn.edu.tju.dao.test;
+
+import cn.edu.tju.domain.Test;
+/**
+ * 示例DAO接口
+ * @author Jimmy
+ *
+ */
+public interface TestDao {
+	
+	/**
+	 * 新建Test类对象
+	 * @param test
+	 * @return
+	 */
+	int save(Test test);
+}

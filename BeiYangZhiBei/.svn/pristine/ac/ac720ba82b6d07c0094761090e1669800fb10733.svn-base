@@ -1,0 +1,30 @@
+package cn.edu.tju.dao.schoolCollegeMajor;
+
+import java.util.List;
+
+import cn.edu.tju.domain.SchoolCollegeMajor;
+
+public interface SchoolCollegeMajorDao {
+
+	SchoolCollegeMajor getById(int id);
+	
+	List<SchoolCollegeMajor> getByLevel(int level);
+	
+	/**
+	 * 获取某一个ID下的所有子，但不包含孙
+	 * @param name
+	 * @param parentId
+	 * @return
+	 */
+	List<SchoolCollegeMajor> getByParent(int parentId);
+	
+	SchoolCollegeMajor getByNameAndPid(String name,int parentId);
+	
+	int save(SchoolCollegeMajor scm);
+	
+	void update(SchoolCollegeMajor scm);
+	
+	void delete(int id);
+	
+	void delete(String name,int parentId);
+}

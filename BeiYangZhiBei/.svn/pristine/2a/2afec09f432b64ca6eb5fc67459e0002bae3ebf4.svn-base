@@ -1,0 +1,76 @@
+package cn.edu.tju.dao.accountAndPermission;
+
+import java.util.List;
+import java.util.Map;
+
+import cn.edu.tju.domain.Account;
+import cn.edu.tju.util.Pager;
+
+
+/**
+ * 账户用户访问接口
+ * @author Administrator
+ *
+ */
+
+public interface AccountDao {
+	/**
+	 * 按照给定的查询条件和分页条件查询所有的Account
+	 * @param pageInfo:带分页的查询结果集，查询结果集在pageInfo的results属性里
+	 * @param conditions:Map型查询条件集
+	 */
+
+	void getAccountByPage(final Pager<Account> pageInfo,Map<String,Object> conditions);
+	
+	/**
+	 * 查找全部账户
+	 * @return 账户集合
+	 */
+	List<Account> getAccounts();
+	
+	/**
+	 * 按照id查询账户
+	 * @param id
+	 * @return
+	 */
+	Account getAccountById(int id);
+	
+	/**
+	 * 以精确匹配方式（但不区分大小写），按照userName查找Account
+	 * @param userName
+	 * @return
+	 */
+	Account getAccountByUserName(String username);
+	
+	/**
+	 * 插入新的Account
+	 * @param account
+	 * @return
+	 */
+	void saveAccount(Account account);
+	
+	/**
+	 * 更新Account
+	 * @param account
+	 */
+	void updateAccount(Account account);
+	/**
+	 * 更新账户密码
+	 * @param accId
+	 * @param newPwd
+	 */
+	void updatePwd(int accId,String newPwd);
+	/**
+	 * 按照指定id删除Account
+	 * @param id:AccountId
+	 * @return:如果成功，则返回被删除的用户ID
+	 */
+	int deleteAccountById(int id);
+	/**
+	 * 按照指定对象删除Account
+	 * @param acc
+	 * @return：如果成功，则返回被删除的用户ID
+	 */
+	int deleteAccount(Account acc);
+
+}

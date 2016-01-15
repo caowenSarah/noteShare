@@ -1,0 +1,85 @@
+package cn.edu.tju.dao.album;
+
+
+
+import java.util.List;
+import java.util.Map;
+
+import cn.edu.tju.domain.Album;
+import cn.edu.tju.util.Pager;
+
+
+/**
+ * 笔记图册访问接口
+ * @author Administrator
+ *
+ */
+
+public interface AlbumDao {
+	/**
+	 * 按照给定的查询条件和分页条件查询所有的Album
+	 * @param pageInfo:带分页的查询结果集，查询结果集在pageInfo的results属性里
+	 * @param conditions:Map型查询条件集
+	 */
+
+	void getAlbumByPage(final Pager<Album> pageInfo,Map<String,Object> conditions);
+	
+	/**
+	 * 查找全部笔记
+	 * @return 笔记集合
+	 */
+	List<Album> getAlbums();
+	
+	/**
+	 * 按照id查询
+	 * @param id
+	 * @return
+	 */
+	Album getAlbumById(int id);
+	/**
+	 * 按照笔记的名字查找Album
+	 * @param userName
+	 * @return
+	 */
+	Album getAlbumByname(String name);
+	
+	/**
+	 * 按照创建者查找Album
+	 * @param userName
+	 * @return
+	 */
+	Album getAlbumByCreateUser(String createUser);
+	/**
+	 * 按照笔记所属科目查找Album
+	 * @param userName
+	 * @return
+	 */
+	List<Album> getAlbumBySubjects(String subjects);
+	
+	/**
+	 * 插入新的Album
+	 * @param Album
+	 * @return
+	 */
+	int saveAlbum(Album Album);
+	
+	/**
+	 * 更新Album
+	 * @param Album
+	 */
+	void updateAlbum(Album Album);
+	
+	/**
+	 * 按照指定id删除Album
+	 * @param id:AlbumId
+	 * @return:如果成功，则返回被删除的用户ID
+	 */
+	int deleteAlbumById(int id);
+	/**
+	 * 按照指定对象删除Album
+	 * @param acc
+	 * @return：如果成功，则返回被删除的用户ID
+	 */
+	int deleteAlbum(Album acc);
+
+}

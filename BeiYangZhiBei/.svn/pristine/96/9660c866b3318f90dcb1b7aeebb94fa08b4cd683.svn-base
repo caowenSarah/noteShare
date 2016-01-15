@@ -1,0 +1,18 @@
+package cn.edu.tju.service.test;
+
+import cn.edu.tju.domain.Test;
+
+/**
+ * 示例Service
+ * @author Jimmy
+ *
+ */
+public interface TestService {
+
+	/**
+	 * 新建Test
+	 * @param test
+	 * @return
+	 */
+	int save(Test test);
+}

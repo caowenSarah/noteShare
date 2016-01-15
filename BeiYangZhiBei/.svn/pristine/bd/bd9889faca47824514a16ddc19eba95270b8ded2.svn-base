@@ -1,0 +1,43 @@
+package cn.edu.tju.service.accountAndPermission.imp;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.edu.tju.dao.accountAndPermission.AccountDao;
+import cn.edu.tju.domain.Account;
+import cn.edu.tju.service.accountAndPermission.AccountService;
+
+@Service
+public class AccountServiceImp implements AccountService {
+
+	//跟dao层联系上
+	@Autowired
+	private AccountDao accDao;
+	
+	public Account getAccountByUserName(String username) {
+		Account account = accDao.getAccountByUserName(username);
+		return account;
+	}
+
+	public String getValidateResult(String username, String pwd) {
+		Account account = getAccountByUserName(username);
+		//账户不重名，只判断前后端密码是否一致
+		String result ="";
+		if(account==null){
+			result = "用户不存在！";
+		}else if(account.getPwd().equals(pwd)){
+			result = "1";
+		}else{
+			result = "账户名与密码不匹配！";
+		}
+		return result;
+	}
+	
+	public int getSignUpAccount(Account account) {
+		int id=accDao.saveAccount(account);
+		return id;
+	}
+	
+	
+
+}

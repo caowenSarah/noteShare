@@ -1,0 +1,7 @@
+package cn.edu.tju.dao.schoolCollegeMajor.Imp;
+
+import cn.edu.tju.dao.schoolCollegeMajor.SchoolCollegeMajorDao;
+
+public class SchoolCollegeMajorDaoImp implements SchoolCollegeMajorDao {
+
+}

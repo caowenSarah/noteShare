@@ -1,0 +1,40 @@
+package cn.edu.tju.dao.test.imp;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import cn.edu.tju.dao.test.TestDao;
+import cn.edu.tju.domain.Test;
+
+/**
+ * 示例DAO的实现类
+ * @author Jimmy
+ *
+ */
+@Repository
+public class TestDaoImp implements TestDao {
+
+	
+	private static Logger logger = Logger.getLogger(TestDaoImp.class);
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+	private Session getSession(){
+		logger.info(sessionFactory.getCurrentSession().toString());
+		return sessionFactory.getCurrentSession();
+	}
+	
+	
+	public int save(Test test) {
+		// TODO Auto-generated method stub
+		Session session = getSession();
+		session.save(test);
+		logger.info("新建Test对象，ID为：");
+		return test.getId();
+	}
+	
+
+}

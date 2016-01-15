@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xmlns:aop="http://www.springframework.org/schema/aop"
+	     xmlns:jee="http://www.springframework.org/schema/jee"
+	     xmlns:tx="http://www.springframework.org/schema/tx"
+	     xmlns:p="http://www.springframework.org/schema/p"
+	     xmlns:context="http://www.springframework.org/schema/context"  
+	     xmlns:util="http://www.springframework.org/schema/util" 
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd" >
+ 
+    <context:annotation-config/>
+    <context:component-scan base-package="cn.edu.tju.dao,cn.edu.tju.service"/>
+    
+    <!-- 客户端更新文件、资源预览图等存储物理路径及访问Url配置文件 -->
+	<util:properties id="static_res_prop" location="classpath:static-resource.properties"/>
+   
+   	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+		<property name="fileEncoding">
+      		<value>UTF-8</value>
+    	</property>
+	</bean>
+   
+     <!-- 数据源  --> 
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy" > 
+		<property name="targetDataSource"> 
+            <bean class="org.logicalcobwebs.proxool.ProxoolDataSource"> 
+                <property name="driver" value="${jdbc.driverClassName}" /> 
+                <property name="driverUrl" value="${jdbc.url}" /> 
+                <property name="user" value="${jdbc.username}" /> 
+                <property name="password" value="${jdbc.password}" />      
+            <!-- 
+                <property name="driver" value="com.mysql.jdbc.Driver" /> 
+                <property name="driverUrl" value="jdbc:mysql://localhost:3306/BeiYangZhiBei" /> 
+                <property name="user" value="Jimmy" /> 
+                <property name="password" value="123" /> 
+                <property name="maximumConnectionCount" value="5" /> 
+                <property name="minimumConnectionCount" value="1" /> 
+             -->       
+            </bean> 
+        </property> 
+   	</bean>
+   	
+   	<!-- p6spy是一个监控JDBC执行的开源产品 -->
+ 	<bean id="myP6DataSource" class="com.p6spy.engine.spy.P6DataSource">
+		<constructor-arg>
+			<ref bean="dataSource" />
+		</constructor-arg>
+	</bean>  	
+   	
+    <!--整合hibernate-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="hibernateProperties">
+	        <value>
+	        	hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+	        	hibernate.show_sql=true
+	        	<!-- 
+	        	hibernate.current_session_context_class=org.springframework.orm.hibernate4.SpringSessionContext
+	        	 -->
+	        	hibernate.id.new_generator_mappings=true
+	        </value>
+        </property>
+        <property name="packagesToScan">
+            <value>cn.edu.tju.domain</value>
+        </property>
+    </bean>
+	
+	
+	<!-- the transactional advice (what 'happens'; see the <aop:advisor/> bean below) -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<!-- the transactional semantics... -->
+		<tx:attributes>
+			<!-- all methods starting with 'get' are read-only 不需要事务处理的Service方法，请以facade开头-->
+			<tx:method name="get*" propagation="REQUIRED" read-only="true"/>
+			<tx:method name="list*" propagation="REQUIRED" read-only="true"/>
+			<tx:method name="isExist" propagation="REQUIRED" read-only="true"/>
+			<tx:method name="log*" propagation="REQUIRED" read-only="true"/>
+			<tx:method name="save*" propagation="REQUIRED"/>
+			<tx:method name="replace*" propagation="REQUIRED"/>
+			<tx:method name="upload*" propagation="REQUIRED"/>
+			<tx:method name="update*" propagation="REQUIRED"/>
+			<tx:method name="delete*" propagation="REQUIRED"/>
+			<tx:method name="create*" propagation="REQUIRED"/>
+			<tx:method name="change*" propagation="REQUIRED"/>
+			<tx:method name="count*" propagation="REQUIRED"/>
+			<tx:method name="resourceIsReady" propagation="REQUIRED"/>
+			<tx:method name="generator*" propagation="REQUIRES_NEW" isolation="SERIALIZABLE"/>
+			<tx:method name="approve*" propagation="REQUIRED"/>
+			<tx:method name="refuse*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- ensure that the above transactional advice runs for any execution
+	of an operation defined by the FooService interface -->
+	<aop:config>
+		<aop:pointcut id="allTxManage" expression="execution(public * cn.edu.tju.service..*.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="allTxManage"/>
+	</aop:config>
+	
+	<bean id="txManager" 
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+          p:sessionFactory-ref="sessionFactory" />
+
+</beans>

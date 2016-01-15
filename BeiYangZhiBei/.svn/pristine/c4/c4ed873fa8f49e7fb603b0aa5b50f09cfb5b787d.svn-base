@@ -1,0 +1,30 @@
+package cn.edu.tju.service.album.imp;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import cn.edu.tju.dao.album.AlbumDao;
+import cn.edu.tju.domain.Album;
+import cn.edu.tju.service.album.AlbumService;
+
+
+@Service
+public class AlbumServiceImp implements AlbumService {
+	
+	@Autowired
+	private AlbumDao albDao;
+	
+	public List<Album> getAlbumBySubjects(String subjects) {
+		List<Album> album = albDao.getAlbumBySubjects(subjects);
+		return album;
+	}
+
+	
+	public int saveAlbum(Album Album) {
+		int id=albDao.saveAlbum(Album);
+		return id;
+	}
+	
+
+}

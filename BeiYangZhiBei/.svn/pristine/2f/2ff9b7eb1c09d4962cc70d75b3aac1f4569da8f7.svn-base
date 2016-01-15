@@ -1,0 +1,33 @@
+package cn.edu.tju.service.goods.imp;
+
+import java.util.List;
+import java.util.Map;
+
+import cn.edu.tju.domain.Goods;
+import cn.edu.tju.service.goods.GoodsService;
+import cn.edu.tju.util.Pager;
+
+public class GoodServiceImp implements GoodsService {
+
+	public void getGoodssByPage(Pager<Goods> pageInfo,
+			Map<String, Object> conditions) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public Goods getGoodsById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Goods> getGoodsByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int saveGoods(Goods goods) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

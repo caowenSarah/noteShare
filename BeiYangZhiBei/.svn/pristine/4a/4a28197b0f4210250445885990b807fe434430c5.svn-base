@@ -1,0 +1,42 @@
+package cn.edu.tju.service.accountAndPermission.imp;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.edu.tju.dao.schoolCollegeMajor.SchoolCollegeMajorDao;
+import cn.edu.tju.domain.SchoolCollegeMajor;
+import cn.edu.tju.service.accountAndPermission.SchoolCollegeMajorService;
+
+@Service
+public class SchoolCollegeMajorServiceImp implements SchoolCollegeMajorService {
+	
+	@Autowired private SchoolCollegeMajorDao scmDao;
+
+	public List<SchoolCollegeMajor> getSchoolCollegeMajorByLevel(int level) {
+		return scmDao.getByLevel(level);
+	}
+
+	public List<SchoolCollegeMajor> getAllSchools() {
+		//第0层是最顶层，爷爷辈儿的
+		return this.getSchoolCollegeMajorByLevel(0);
+	}
+
+	public  List<SchoolCollegeMajor> getByParent(int parentId) {
+		return scmDao.getByParent(parentId);
+	}
+
+	public int saveSchoolCollegeMajor(SchoolCollegeMajor scm) {
+		return scmDao.save(scm);
+	}
+
+	public void updateSchoolCollegeMajor(SchoolCollegeMajor scm) {
+		scmDao.update(scm);
+	}
+
+	public void deleteSchoolCollegeMajor(int id) {
+		scmDao.delete(id);
+	}
+
+}

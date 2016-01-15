@@ -1,0 +1,33 @@
+#????
+#OFF > FATAL > ERROR > WARN> INFO > DEBUG > ALL;
+#log4j.rootLogger=DEBUG,stdout
+
+#??????
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.Threshold=DEBUG
+log4j.appender.stdout.Target=System.out
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{ISO8601} %-5p [%F:%L] : %m%n
+
+#???????
+log4j.appender.logfile=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.logfile.File=${HelloEvaluation.root}/WEB-INF/log/platform.log
+log4j.appender.logfile.Append = true
+#??DEBUG???????
+log4j.appender.logfile.Threshold = DEBUG
+log4j.appender.logfile.layout=org.apache.log4j.PatternLayout
+log4j.appender.logfile.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %t %c %p - %m%n
+
+#log4j.logger.org.springframework=DEBUG,stdout
+#log4j.logger.org.springframework.web=DEBUG,stdout 
+log4j.logger.com.founder.mrp = DEBUG,stdout
+
+#log4j.logger.java.sql.Connection=DEBUG ,stdout
+#log4j.logger.java.sql.Statement=DEBUG ,stdout
+#log4j.logger.java.sql.PreparedStatement=DEBUG ,stdout
+#log4j.logger.java.sql.ResultSet=DEBUG ,stdout
+#log4j.logger.com.founder=DEBUG,stdout
+
+#log4j.logger.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+#log4j.logger.org.hibernate.type=TRACE
+#log4j.logger.org.hibernate.sql=TRACE

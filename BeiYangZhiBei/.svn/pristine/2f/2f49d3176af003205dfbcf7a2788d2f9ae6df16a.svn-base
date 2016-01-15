@@ -1,0 +1,8 @@
+package cn.edu.tju.domain;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+public class Goods {
+	
+}

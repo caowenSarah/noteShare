@@ -1,0 +1,83 @@
+package cn.edu.tju.web.controller.album;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.edu.tju.domain.Album;
+import cn.edu.tju.service.album.AlbumService;
+
+
+@Controller
+public class AlbumController {
+	
+	
+	@Autowired
+	AlbumService albSrv;
+	
+	/**
+	 * 跳转至搜索页面
+	 * @return
+	 */
+	@RequestMapping(value="/note_show",method=RequestMethod.GET)
+	public String toSearch(){
+		System.out.println("进入搜索页面");
+		return "note_show";
+	}
+
+	@RequestMapping(value="/note_show",method=RequestMethod.POST)
+	public List<Album> noteShow(
+			@RequestParam("subjects") String subjects,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Model model){
+		List<Album> message = albSrv.getAlbumBySubjects(subjects);
+		if(message.equals("1")){
+			return message;
+		} else{
+			model.addAttribute("msg", message);
+			return message;
+		}
+		
+	}
+	
+	/**
+	 * 进入新建图册页面（get）
+	 * @return
+	 */
+	@RequestMapping(value="/createAlbum",method=RequestMethod.GET)
+	public String toCreateAlbum(){
+		System.out.println("进入新建图册页面");
+		return "createAlbum";
+	}
+	/**
+	 * 提交新建图册（post）
+	 * @return
+	 */
+	@RequestMapping(value="/createAlbum",method=RequestMethod.POST)
+	@ResponseBody
+	public String createAlbum(
+			@RequestParam("notename") String notename,
+			@RequestParam("subjects") String subjects,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Model model){
+		System.out.println("新建图册页面");
+		Album ablum = new Album();
+		ablum.setName(notename);
+		ablum.setSubjects(subjects);
+		int id=albSrv.saveAlbum(ablum);
+		return String.valueOf(id);
+	}
+
+}
+

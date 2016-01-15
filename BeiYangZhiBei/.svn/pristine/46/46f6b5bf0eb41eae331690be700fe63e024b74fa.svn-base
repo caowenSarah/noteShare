@@ -1,0 +1,62 @@
+package cn.edu.tju.service.note.imp;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import cn.edu.tju.dao.note.NoteDao;
+import cn.edu.tju.domain.Note;
+import cn.edu.tju.service.config.SystemConfigService;
+import cn.edu.tju.service.note.NoteService;
+import cn.edu.tju.util.FileUtil;
+import cn.edu.tju.util.Logger;
+import cn.edu.tju.util.Pager;
+
+
+@Service
+public class NoteServiceImp implements NoteService {
+	
+	private static Logger logger = Logger.getLogger(NoteServiceImp.class);
+	@Autowired private NoteDao noteDao;
+	@Autowired private SystemConfigService sysCfgSrv;
+	
+	
+	public void getNotesByPage(final Pager<Note> pageInfo,Map<String,Object> conditions){
+		noteDao.getByPage(pageInfo, conditions);
+	}
+	
+	public Note getNote(int id){
+		return noteDao.getById(id);
+	}
+	
+	public List<Note> getNotesBySubjects(String subjects) {
+		List<Note> album = noteDao.getBySubjects(subjects);
+		return album;
+	}
+
+	
+	public int saveNote(Note Album) {
+		int id=noteDao.save(Album);
+		return id;
+	}
+
+	public void saveUploadedMultipartFile(int id, MultipartFile file,int index) {
+		logger.debug("进入存文件service方法");
+		String stoRoot = sysCfgSrv.getFileStorageRoot();
+		String storePath = stoRoot+File.separator+"noteFile"+File.separator+id+File.separator;
+		String storeName = index+"";
+		FileUtil util = new FileUtil();
+		try {
+			util.createFileByInStream(storePath, storeName, file.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
+}

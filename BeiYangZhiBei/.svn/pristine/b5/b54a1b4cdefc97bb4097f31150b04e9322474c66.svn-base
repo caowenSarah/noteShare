@@ -1,0 +1,27 @@
+# Properties file with JDBC and JPA settings.
+#
+# Applied by <context:property-placeholder location="jdbc.properties"/> from
+# various application context XML files (e.g., "applicationContext-*.xml").
+# Targeted at system administrators, to avoid touching the context XML files.
+
+
+#-------------------------------------------------------------------------------
+# Common Settings
+
+hibernate.generate_statistics=true
+hibernate.show_sql=true
+jpa.showSql=true
+
+#-------------------------------------------------------------------------------
+#SAE MYSQL
+#jdbc.driverClassName=com.mysql.jdbc.Driver
+#jdbc.url=jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_tbean
+#jdbc.username=lkn3240x03
+#jdbc.password=4hj5y04xk1hlmlz414i21kjj23mjmz0jiw35x0zx
+
+#-------------------------------------------------------------------------------
+# MYSQL Settings
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/beiyangzhibei
+jdbc.username=root
+jdbc.password=6543210

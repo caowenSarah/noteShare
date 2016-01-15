@@ -1,0 +1,23 @@
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>北洋书香传承测试</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style type="text/css">
+body {font-family:font-style:italic;font-weight:bold;font-size:60px;}
+</style>
+</head>
+<body>
+
+北洋书香传承测试页
+<br>
+<a href='signUp.action'>注册</a>  <br>
+
+<a href="login.action">点此登录</a> <br>
+
+<a href='views/noteShare.jsp'>笔记分享</a>  <br> 
+</body>
+</html>

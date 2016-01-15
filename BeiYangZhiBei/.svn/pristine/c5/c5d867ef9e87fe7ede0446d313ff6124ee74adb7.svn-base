@@ -1,0 +1,24 @@
+package cn.edu.tju.service.test.imp;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.edu.tju.dao.test.TestDao;
+import cn.edu.tju.domain.Test;
+import cn.edu.tju.service.test.TestService;
+/**
+ * 示例Service的实现类
+ * @author Jimmy
+ *
+ */
+@Service
+public class TestServiceImp implements TestService {
+
+	@Autowired 
+	TestDao testDao;
+	
+	public int save(Test test) {
+		return testDao.save(test);
+	}
+
+}

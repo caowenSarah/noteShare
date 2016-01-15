@@ -1,0 +1,232 @@
+/**
+ * 注册
+ * @author zhangzhengji 
+ */
+var namespacesignup = TJU.namespace("beiyang.siguup.siguup");
+
+/**
+ * 未完成订单列表页面 
+ */
+namespacesignup.collegeList=function(){
+	this.condition={'libId':'','createBeginTime':'','createEndTime':'','completeBeginTime':"",'completeEndTime':"",'orderNo':'','name':'','publisherId':'','creater':'','orderState':'','isSafeFile':false,'isWarningOrder':false,'type':''};  //查询条件
+	this.sortColumn="orderNo";  //排序字段  
+	this.sortDir="desc";  // 升序(asc),降序(desc)，默认为降序
+	this.currPageIndex=0;   //当前页码 从0开始
+	this.pageSize=10;   //每页条数
+	this.isPageInit=false;   //是否为初始化分页列表
+	this.init=function(){	
+		$('#publisher').select2({'allowClear':true});
+		this.event();
+	}; 	
+	this.event=function(){
+		var obj=this;	  
+		$('.item-orderType').on('click','li',function(){
+			//预警订单
+			if($('#warning').find(':checked').length>0)
+			{
+				obj.condition.isWarningOrder=true;
+			}
+			if(!$(this).hasClass('active'))
+			{
+				$(this).addClass('active').siblings().removeClass('active');
+				if($(this).parent().get(0).id=='libId')
+					{
+						obj.condition.libId=$(this).data('libid')|| '';
+					}
+				else
+					{
+						obj.condition.orderState=$(this).data('state');
+					}
+				
+				obj.currPageIndex=0;
+				obj.getData();
+			}
+			
+		});  //订单类别筛选
+		$('.item-time').on('click','li',function(){
+			if($('#warning').find(':checked').length>0)
+			{
+				obj.condition.isWarningOrder=true;
+			}
+			if($(this).hasClass('active'))
+				{
+					$(this).removeClass('active');
+					if($(this).closest('.right').hasClass('createDate'))
+						{
+							obj.condition.createBeginTime='';
+							obj.condition.createEndTime='';
+						}
+					else
+						{
+							obj.condition.completeBeginTime='';
+							obj.condition.completeEndTime='';
+						}
+				}
+			else
+				{
+					$(this).addClass('active').siblings().removeClass('active');
+					if($(this).closest('.right').hasClass('createDate'))
+						{
+							if(this.id=='today')
+								{
+									obj.condition.createBeginTime=getToday()+' 0:0:0';
+									obj.condition.createEndTime=getToday()+' 23:59:59';
+								}
+							else if(this.id=='yesterday')
+								{
+									obj.condition.createBeginTime=formatYesterday()+' 0:0:0';
+									obj.condition.createEndTime=formatYesterday()+' 23:59:59';
+								}
+							else if(this.id=='week')
+								{
+									obj.condition.createBeginTime=getWeekStartDate()+' 0:0:0';
+									obj.condition.createEndTime=getWeekEndDate()+' 23:59:59';
+								}
+							else
+								{
+									obj.condition.createBeginTime=getMonthStartDate()+' 0:0:0';
+									obj.condition.createEndTime=getMonthEndDate()+' 23:59:59';
+								}
+						}
+					else
+						{
+							if(this.id=='today')
+							{
+								obj.condition.completeBeginTime=getToday()+' 0:0:0';
+								obj.condition.completeEndTime=getToday()+' 23:59:59';
+							}
+							else if(this.id=='yesterday')
+							{
+								obj.condition.completeBeginTime=formatYesterday()+' 0:0:0';
+								obj.condition.completeEndTime=formatYesterday()+' 23:59:59';
+							}
+						   else	if(this.id=='week')
+							{
+								obj.condition.completeBeginTime=getWeekStartDate()+' 0:0:0';
+								obj.condition.completeEndTime=getWeekEndDate()+' 23:59:59';
+							}
+							else
+							{
+								obj.condition.completeBeginTime=getMonthStartDate()+' 0:0:0';
+								obj.condition.completeEndTime=getMonthEndDate()+' 23:59:59';
+							}
+						}					
+				}
+			obj.currPageIndex=0;
+			obj.getData();
+		}); //日期筛选
+		$('#btnSearch').click(function(){		
+			var createBeginTime=$('.createDate #txtStart').val();
+			var createEndTime= $('.createDate #txtEnd').val();
+			var completeBeginTime=$('.completeDate #txtStart').val();
+			var completeEndTime= $('.completeDate #txtEnd').val();
+			if(createBeginTime!='' || createEndTime!='')
+				{
+					$('.item-time .createDate li').removeClass('active');
+					obj.condition.createBeginTime=createBeginTime==''?'':createBeginTime+' 0:0:0';
+					obj.condition.createEndTime=createEndTime==''?'':createEndTime+' 23:59:59';
+				}
+			else if($('.createDate li.active').length==0)
+			{
+				obj.condition.createBeginTime='';
+				obj.condition.createEndTime='';
+			}
+			if(completeBeginTime!='' || completeEndTime!='')
+			{
+				$('.item-time .completeDate li').removeClass('active');
+				obj.condition.completeBeginTime=completeBeginTime==''?'':completeBeginTime+' 0:0:0';
+				obj.condition.completeEndTime=completeEndTime==''?'':completeEndTime+' 23:59:59';
+			}
+			else if($('.completeDate li.active').length==0)
+			{
+				
+				obj.condition.completeBeginTime='';
+				obj.condition.completeBeginTime='';
+			}
+			obj.condition.orderNo=$.trim($('#txtOrderNo').val());
+			obj.condition.name=escape($.trim($('#txtName').val()));
+			obj.condition.publisherId=$('#publisher').val();
+			obj.condition.creater=escape($.trim($('#txtUser').val()));
+			if($('#warning').find(':checked').length>0)
+				{
+					obj.condition.isWarningOrder=true;
+				}
+			obj.currPageIndex=0;
+			obj.getData();
+		}); //查询
+		$('#btnReset').click(function(){
+			$('#txtOrderNo').val('');
+			$('#txtName').val('');
+			$('#txtUser').val('');
+			$('#publisher').val('').select2({'allowClear':true});
+			obj.condition.orderNo=obj.condition.name=obj.condition.creater=obj.condition.publisherId='';
+			obj.currPageIndex=0;
+			obj.getData();
+		});  //重置
+		$('#page-ctn>.portlet-title :checkbox ').change(function(){
+			if($(this).closest('label').get(0).id=='safeFile')
+				{
+					if($(this).is(':checked'))
+						{
+							obj.condition.isSafeFile=true;
+						}
+					else
+						{
+							obj.condition.isSafeFile=false;
+						}
+				}
+			else
+				{
+					if($(this).is(':checked'))
+					{
+						obj.condition.isWarningOrder=true;
+					}
+				else
+					{
+						obj.condition.isWarningOrder=false;
+					}
+				}
+			obj.currPageIndex=0;
+			obj.getData();
+		}); //复选框过滤
+		$("#page-ctn>.portlet-body").on("click","table>thead th",function(e){	
+			if($(this).index()!=1 && $(this).index()!=4 && $(this).index()!=6)
+				return;
+			obj.sortColumn=$.trim($(this).data('columnname'));					
+			if($(this).is(".sorting_desc"))
+				{					
+					obj.sortDir="asc";
+				}
+			else 
+				{					
+					obj.sortDir="desc";
+				}
+			obj.currPageIndex=0;		
+			obj.getData();
+		});    //排序
+		
+	};
+	
+	/**
+	 * ajax请求数据	
+	 */
+	this.getData=function(){
+		var portlet=$('.portlet');
+		App.blockUI(portlet);
+		var obj=this;	
+		var data={"sortColumn":this.sortColumn, "sortDir":this.sortDir,"pageSize":this.pageSize,"pageIndex":this.currPageIndex};
+		$.getJSONNoCache("unfinishedorderlistreturn.action","GET",$.extend(data,obj.condition,{'type':$('#hdOrderState').val()}),"text",false,function(data){
+			  App.unblockUI(portlet);
+			  $("#page-ctn>.portlet-body").html(data);    //替换内容			
+				obj.initPage();          //重新初始化分页列表
+			},
+			function(){
+				App.unblockUI(portlet);
+            	$("#page-ctn>.portlet-body").html("<p class='errorMsg'>获取数据失败，刷新页面试试</p>");
+			});		
+	}; 
+	
+};   
+namespacesignup.majorList=function(){
+	
+}

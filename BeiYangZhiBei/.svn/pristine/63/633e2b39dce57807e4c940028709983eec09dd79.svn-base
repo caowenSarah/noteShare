@@ -1,0 +1,56 @@
+package cn.edu.tju.web.controller.goods;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import cn.edu.tju.domain.Goods;
+import cn.edu.tju.service.goods.GoodsService;
+
+
+
+@Controller
+public class GoodsController {
+	
+	@Autowired
+	GoodsService goodsSrv;
+	
+	/**
+	 * 进入新建笔记页面（get）
+	 * @return
+	 */
+	@RequestMapping(value="/createGoods",method=RequestMethod.GET)
+	public String toCreateGoods(){
+		System.out.println("进入新建笔记页面");
+		return "goods/createGoods";
+	}
+	/**
+	 * 提交新建笔记（post）
+	 * @return
+	 */
+	@RequestMapping(value="/createGoods",method=RequestMethod.POST)
+	@ResponseBody
+	public ModelAndView createGoods(
+			@RequestParam("goodsname") String goodsname,
+			@RequestParam("type") String type,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Model model){
+		System.out.println("添加商品页面");
+		Goods goods = new Goods();
+		goods.setName(goodsname);
+		goods.setType(type);
+		int id=goodsSrv.saveGoods(goods);
+		return new ModelAndView("redirect:/goodsList.action");
+	}
+
+
+}

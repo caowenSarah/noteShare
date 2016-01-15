@@ -1,0 +1,17 @@
+package cn.edu.tju.service.album;
+
+import java.util.List;
+
+import cn.edu.tju.domain.Album;
+
+public interface AlbumService {
+	
+	
+	/**
+	 * 根据用户名查询
+	 * @param userName
+	 * @return
+	 */
+	List<Album> getAlbumBySubjects(String subjects);
+
+}

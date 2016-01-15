@@ -1,0 +1,38 @@
+package cn.edu.tju.service.note;
+
+import java.util.List;
+import java.util.Map;
+
+import cn.edu.tju.domain.Note;
+import cn.edu.tju.util.Pager;
+
+public interface NoteService {
+	
+	/**
+	 * 分页、多条件查询笔记
+	 * @param pageInfo
+	 * @param conditions
+	 */
+	void getNotesByPage(final Pager<Note> pageInfo,Map<String,Object> conditions);
+	
+	/**
+	 * 根据ID获取一份笔记
+	 * @param id
+	 * @return
+	 */
+	Note getNote(int id);
+	
+	/**
+	 * 根据科目查询
+	 * @param subjects
+	 * @return
+	 */
+	List<Note> getNotesBySubjects(String subjects);
+	
+	/**
+	 * 插入图册实体
+	 * @param Album
+	 * @return
+	 */
+	int saveNote(Note Album);
+}

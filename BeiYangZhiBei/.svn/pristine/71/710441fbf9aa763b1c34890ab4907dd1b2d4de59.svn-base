@@ -1,0 +1,165 @@
+package cn.edu.tju.domain;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
+
+@Table(name="Account")
+@Entity
+
+public class Account {
+	private Integer id;
+	private String username;
+	private String uuid;
+	private String pwd;
+	private String sid;
+	private String realname;
+	private String email;
+	private String tel;
+	private Integer classid;
+	private String class_cache;
+	private Integer majorid;
+	private String major_cache;
+	private Integer collegeid;
+	private String college_cache;
+	private Integer schoolid;
+	private String school_cache;
+	private Integer grade;
+	//为啥要写@Id(主键)
+	@Id
+	@Column(name="id")
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	@Column(name="username")
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	@Column(name="uuid")
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+	@Column(name="pwd")
+	public String getPwd() {
+		return pwd;
+	}
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+	@Column(name="sid")
+	public String getSid() {
+		return sid;
+	}
+	public void setSid(String sid) {
+		this.sid = sid;
+	}
+	@Column(name="realname")
+	public String getRealname() {
+		return realname;
+	}
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+	@Column(name="email")
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	@Column(name="tel")
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+	@Column(name="classid")
+	public Integer getClassid() {
+		return classid;
+	}
+	public void setClassid(Integer classid) {
+		this.classid = classid;
+	}
+	@Column(name="class_cache")
+	public String getClass_cache() {
+		return class_cache;
+	}
+	public void setClass_cache(String class_cache) {
+		this.class_cache = class_cache;
+	}
+	@Column(name="majorid")
+	public Integer getMajorid() {
+		return majorid;
+	}
+	public void setMajorid(Integer majorid) {
+		this.majorid = majorid;
+	}
+	@Column(name="major_cache")
+	public String getMajor_cache() {
+		return major_cache;
+	}
+	public void setMajor_cache(String major_cache) {
+		this.major_cache = major_cache;
+	}
+	@Column(name="collegeid")
+	public Integer getCollegeid() {
+		return collegeid;
+	}
+	public void setCollegeid(Integer collegeid) {
+		this.collegeid = collegeid;
+	}
+	@Column(name="college_cache")
+	public String getCollege_cache() {
+		return college_cache;
+	}
+	public void setCollege_cache(String college_cache) {
+		this.college_cache = college_cache;
+	}
+	@Column(name="schoolid")
+	public Integer getSchoolid() {
+		return schoolid;
+	}
+	public void setSchoolid(Integer schoolid) {
+		this.schoolid = schoolid;
+	}
+	@Column(name="school_cache")
+	public String getSchool_cache() {
+		return school_cache;
+	}
+	public void setSchool_cache(String school_cache) {
+		this.school_cache = school_cache;
+	}
+	@Column(name="grade")
+	public Integer getGrade() {
+		return grade;
+	}
+	public void setGrade(Integer grade) {
+		this.grade = grade;
+	}
+	
+	@Override
+	public String toString() {
+		return "Account [id=" + id + ", username=" + username + ", uuid="
+				+ uuid + ", pwd=" + pwd + ", sid=" + sid + ", realname="
+				+ realname + ", email=" + email + ", tel=" + tel + ", classid="
+				+ classid + ", class_cache=" + class_cache + ", majorid="
+				+ majorid + ", major_cache=" + major_cache + ", collegeid="
+				+ collegeid + ", college_cache=" + college_cache
+				+ ", schoolid=" + schoolid + ", school_cache=" + school_cache
+				+ ", grade=" + grade + "]";
+	}
+	
+	
+	
+
+}

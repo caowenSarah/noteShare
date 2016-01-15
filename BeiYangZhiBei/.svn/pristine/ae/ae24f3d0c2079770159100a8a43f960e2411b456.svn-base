@@ -1,0 +1,16 @@
+
+#uploadify {
+	  margin-left: 200px;
+	  margin-top: 6px;
+	  padding: 0px 0px 0px 0px;
+}
+
+#upload-button {
+  margin-left: 250px;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+#shangchuan{
+	float;
+}
